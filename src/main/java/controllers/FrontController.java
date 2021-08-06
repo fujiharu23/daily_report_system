@@ -64,6 +64,7 @@ private ActionBase getAction(HttpServletRequest request, HttpServletResponse res
     } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | SecurityException
              | IllegalArgumentException | InvocationTargetException | NoSuchMethodException e) {
         action = new UnknownAction();
+        e.printStackTrace();
     }
     return action;
 }

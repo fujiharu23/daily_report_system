@@ -117,7 +117,7 @@ public abstract class ActionBase {
 
         //パラメータからtokenの値を取得
         String _token = getRequestParam(AttributeConst.TOKEN);
-
+        System.out.println("########## token: " + _token + " ##########");
 
         if(_token == null || !(_token.equals(getTokenId()))) {
             forward(ForwardConst.FW_ERR_UNKNOWN);
@@ -134,6 +134,7 @@ public abstract class ActionBase {
      */
 
     protected String getTokenId() {
+        System.out.println("########## token: " + request.getSession().getId() + " ##########");
         return request.getSession().getId();
     }
 

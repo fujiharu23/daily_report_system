@@ -80,6 +80,8 @@ public class EmployeeValidator {
 
     private static long isDuplicateEmployee(EmployeeService service, String code) {
 
+        //引数の値を確認のため追記
+        System.out.println("########## code: " + code + " ##########");
         long employeesCount = service.countByCode(code);
         return employeesCount;
     }
