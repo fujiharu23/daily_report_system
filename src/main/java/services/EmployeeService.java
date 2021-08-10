@@ -129,7 +129,7 @@ public class EmployeeService extends ServiceBase {
      * @param pepper pepper文字列
      * @return バリデーションや更新処理中に発生したエラーのリスト
      */
-    public List<String> update(EmployeeView ev,String pepper){
+    public List<String> update(EmployeeView ev, String pepper) {
 
         //idを条件に登録済みの従業員情報を取得する
         EmployeeView savedEmp = findOne(ev.getId());
@@ -145,31 +145,35 @@ public class EmployeeService extends ServiceBase {
         }
 
         boolean validatePass = false;
-        if(ev.getPassword() != null && !ev.getPassword().equals("")) {
+        if (ev.getPassword() != null && !ev.getPassword().equals("")) {
             //パスワードに入力がある場合
+
             //パスワードについてのバリデーションを行う
             validatePass = true;
 
             //変更後のパスワードをハッシュ化し設定する
             savedEmp.setPassword(
-                    EncryptUtil.getPasswordEncrypt(ev.getPassword(),pepper));
+                    EncryptUtil.getPasswordEncrypt(ev.getPassword(), pepper));
         }
 
-        savedEmp.setName(ev.getName()); //変更後の氏名を設定
-        savedEmp.setAdminFlag(ev.getAdminFlag()); //変更後の管理者フラグを設定
+        savedEmp.setName(ev.getName()); //変更後の氏名を設定する
+        savedEmp.setAdminFlag(ev.getAdminFlag()); //変更後の管理者フラグを設定する
 
         //更新日時に現在時刻を設定する
         LocalDateTime today = LocalDateTime.now();
         savedEmp.setUpdatedAt(today);
+        System.out.println("############ 現在時刻：" + today);
 
-        //更新内容についてバリテーションを行う
-        List<String> errors = EmployeeValidator.validate(this,savedEmp,validateCode,validatePass);
 
-        if(errors.size() == 0) {
+        //更新内容についてバリデーションを行う
+        List<String> errors = EmployeeValidator.validate(this, savedEmp, validateCode, validatePass);
+
+        //バリデーションエラーがなければデータを更新する
+        if (errors.size() == 0) {
             update(savedEmp);
         }
 
-        //エラー返却（エラーがなければ０件の空リスト）
+        //エラーを返却（エラーがなければ0件の空リスト）
         return errors;
     }
 
@@ -177,8 +181,8 @@ public class EmployeeService extends ServiceBase {
      * idを条件に従業員データを論理削除する
      * @param id
      */
-
     public void destroy(Integer id) {
+
         //idを条件に登録済みの従業員情報を取得する
         EmployeeView savedEmp = findOne(id);
 
@@ -191,6 +195,7 @@ public class EmployeeService extends ServiceBase {
 
         //更新処理を行う
         update(savedEmp);
+
     }
 
     /**
@@ -245,11 +250,13 @@ public class EmployeeService extends ServiceBase {
      */
 
     private void update(EmployeeView ev) {
+
         em.getTransaction().begin();
         Employee e = findOneInternal(ev.getId());
         EmployeeConverter.copyViewToModel(e, ev);
         em.getTransaction().commit();
 
     }
+
 
 }

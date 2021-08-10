@@ -11,7 +11,7 @@
 
 <c:import url="../layout/app.jsp">
     <c:param name="content">
-        <c:if test="${flush != null }">
+        <c:if test="${flush != null}">
             <div id="flush_success">
                 <c:out value="${flush}"></c:out>
             </div>
@@ -26,15 +26,15 @@
                 </tr>
                 <c:forEach var="employee" items="${employees}" varStatus="status">
                     <tr class="row${status.count % 2}">
-                        <td><c:out value="${employee.code }" /></td>
-                        <td><c:out value="${employee.name }" /></td>
+                        <td><c:out value="${employee.code}" /></td>
+                        <td><c:out value="${employee.name}" /></td>
                         <td>
                             <c:choose>
                                 <c:when test="${employee.deleteFlag == AttributeConst.DEL_FLAG_TRUE.getIntegerValue()}">
-                                    (削除済み)
+                                    （削除済み）
                                 </c:when>
                                 <c:otherwise>
-                                     <a href="<c:url value='?action=${actEmp}&command=${commShow}&id=${employee.id}' />">詳細を見る</a>
+                                    <a href="<c:url value='?action=${actEmp}&command=${commShow}&id=${employee.id}' />">詳細を見る</a>
                                 </c:otherwise>
                             </c:choose>
                         </td>
